@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Shortify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                            700: '#7c3aed',
+                            800: '#6d28d9',
+                            900: '#581c87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full text-center">
+        <!-- Logo -->
+        <div class="mb-8">
+            <i class="fas fa-link text-primary-600 dark:text-primary-400 text-4xl mb-4"></i>
+            <h1 class="text-3xl font-bold text-primary-600 dark:text-primary-400">Shortify</h1>
+        </div>
+
+        <!-- 404 Content -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-8">
+            <!-- 404 Number -->
+            <div class="text-6xl font-bold text-gray-300 dark:text-gray-600 mb-2">404</div>
+
+            <!-- Icon -->
+            <div
+                class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                <i class="fas fa-search text-gray-400 text-2xl"></i>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Page Not Found</h2>
+
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+                The page you're looking for doesn't exist or may have been moved.
+            </p>
+
+            <!-- Possible Reasons -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 text-sm text-left">
+                <p class="text-gray-500 dark:text-gray-400 mb-2 font-medium">This might happen because:</p>
+                <ul class="text-gray-600 dark:text-gray-300 space-y-1">
+                    <li class="flex items-start">
+                        <i class="fas fa-chevron-right text-primary-500 text-xs mt-1 mr-2"></i>
+                        <span>The URL was typed incorrectly</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-chevron-right text-primary-500 text-xs mt-1 mr-2"></i>
+                        <span>The link has expired or been deleted</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-chevron-right text-primary-500 text-xs mt-1 mr-2"></i>
+                        <span>The page has been moved</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <a href="/"
+                    class="block w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                    <i class="fas fa-home mr-2"></i>Go to Homepage
+                </a>
+                <a href="/"
+                    class="block w-full border border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 px-6 py-3 rounded-lg font-medium transition-colors duration-200">
+                    <i class="fas fa-plus-circle mr-2"></i>Create New Short Link
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -30,7 +30,7 @@ def redirect_to_original(request, short_code):
 
         # Check if link is expired
         if short_link.expire_at < timezone.now():
-            return render(request, 'core/expired.html') 
+            return render(request, 'core/expired.html',{'short_link':short_link}) 
         # Increment click count
         short_link.click_count += 1
         short_link.save()
