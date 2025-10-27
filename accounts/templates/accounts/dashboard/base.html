@@ -71,32 +71,34 @@
     <div id="sidebar" class="sidebar mobile-sidebar md:translate-x-0 fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg flex flex-col">
         <!-- Logo -->
         <div class="flex items-center justify-between p-4 border-b">
-            <div class="flex items-center">
-                <div class="bg-primary-500 p-2 rounded-lg">
-                    <i class="fas fa-link text-white text-lg"></i>
+            <a href="/">
+                <div class="flex items-center">
+                    <div class="bg-primary-500 p-2 rounded-lg">
+                        <i class="fas fa-link text-white text-lg"></i>
+                    </div>
+                    <span class="ml-2 text-xl font-bold text-dark-900">Shortify</span>
                 </div>
-                <span class="ml-2 text-xl font-bold text-dark-900">Shortify</span>
-            </div>
-            <button id="close-sidebar" class="md:hidden text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times text-xl"></i>
-            </button>
+                <button id="close-sidebar" class="md:hidden text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </a>
         </div>
 
         <!-- Navigation -->
         <nav class="flex-1 px-4 py-6 space-y-2">
-            <a href="#" class="flex items-center px-4 py-3 text-primary-500 bg-primary-50 rounded-lg font-medium">
+            <a href="{% url 'dashboard' %}" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
                 <i class="fas fa-chart-pie mr-3"></i>
                 Dashboard
             </a>
-            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+            <a href="{% url 'create_link' %}" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
                 <i class="fas fa-plus-circle mr-3"></i>
                 Create Short Link
             </a>
-            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+            <a href="{% url 'managelinks' %}" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
                 <i class="fas fa-list mr-3"></i>
                 Manage Links
             </a>
-            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+            <a href="{% url 'analytics' %}" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
                 <i class="fas fa-chart-bar mr-3"></i>
                 Analytics
             </a>
@@ -118,7 +120,7 @@
 
 
     {% if messages %}
-    <div class="space-y-2">
+    <div class="space-y-2 absolute z-50">
         {% for message in messages %}
         <div
             class="flex items-center gap-2 rounded-lg px-4 py-3 border {% if message.tags == 'success' %} bg-green-50 border-green-300 text-green-700 {% elif message.tags == 'error' %} bg-red-50 border-red-300 text-red-700 {% endif %}">

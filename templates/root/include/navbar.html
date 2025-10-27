@@ -1,0 +1,57 @@
+<!-- Navigation -->
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="bg-primary-500 p-2 rounded-lg">
+                        <i class="fas fa-link text-white text-lg"></i>
+                    </div>
+                    <span class="ml-2 text-xl font-bold text-dark-900">Shortify</span>
+                </div>
+                <div class="hidden md:ml-10 md:flex md:space-x-8">
+                    <a href="/"
+                        class="inline-flex items-center px-1 pt-1 border-b-2 border-primary-500 text-sm font-medium text-dark-900">Home</a>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}"
+                    class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Dashboard</a>
+                <a href="{% url 'logout' %}"
+                    class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Log
+                    Out</a>
+
+                {% else %}
+                <a href="{% url 'login' %}"
+                    class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Login</a>
+                <a href="{% url 'register' %}"
+                    class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">Sign
+                    Up Free</a>
+                {% endif %}
+            </div>
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center">
+                <button type="button" id="mobile-menu-button"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+                    aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state -->
+    <div id="mobile-menu" class="mobile-menu md:hidden hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-dark-900 bg-primary-50">Home</a>
+            <a href="#"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50">Login</a>
+            <a href="#"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50">Sign
+                Up</a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,198 @@
+{% extends "accounts/dashboard/base.html" %}
+
+{% block title %}Analytics{% endblock title %}
+
+{% block extracss %}
+<style>
+    .analytics-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .map-container {
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+
+{% endblock extracss %}
+
+{% block main %}
+<!-- Main Content -->
+<div class="md:ml-64">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <button id="open-sidebar" class="md:hidden text-gray-500 hover:text-gray-700 mr-4">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Link Analytics</h1>
+                    <div class="flex items-center mt-1">
+                        <p class="text-sm text-gray-500">shortify.link/shop2023</p>
+                        <button class="ml-2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-copy text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- Date Range Selector -->
+                <div class="relative">
+                    <select
+                        class="pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 appearance-none bg-white">
+                        <option>Last 7 days</option>
+                        <option>Last 30 days</option>
+                        <option>Last 90 days</option>
+                        <option>Custom range</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 pointer-events-none"></i>
+                </div>
+
+                <!-- Export Button -->
+                <button
+                    class="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg font-medium border border-gray-300 flex items-center">
+                    <i class="fas fa-download mr-2"></i> Export
+                </button>
+
+                <!-- User Menu -->
+                <div class="relative" id="user-menu">
+                    <button class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
+                        <div
+                            class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            JS
+                        </div>
+                        <span class="hidden md:block font-medium">John Smith</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden z-50"
+                        id="dropdown-menu">
+                        <a href="{% url 'userprofile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user mr-2"></i>Profile
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i>Settings
+                        </a>
+                        <div class="border-t my-1"></div>
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="p-6">
+        <!-- Quick Stats & QR Code -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+            <!-- QR Code Card -->
+            <div class="lg:col-span-1 analytics-card p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">QR Code</h3>
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
+                        <!-- QR Code Placeholder -->
+                        <div class="w-full h-48 bg-gray-100 rounded flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-qrcode text-4xl text-gray-400 mb-2"></i>
+                                <p class="text-sm text-gray-500">QR Code</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600 mb-2">Scan to visit</p>
+                        <button
+                            class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center mx-auto">
+                            <i class="fas fa-download mr-2"></i> Download QR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stats-card analytics-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Total Clicks</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">2,458</p>
+                        </div>
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <i class="fas fa-mouse-pointer text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-sm text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        <span>18.3% from previous period</span>
+                    </div>
+                </div>
+
+                <div class="stats-card analytics-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Unique Visitors</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">1,842</p>
+                        </div>
+                        <div class="p-3 bg-green-100 rounded-lg">
+                            <i class="fas fa-users text-green-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-sm text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        <span>12.7% from previous period</span>
+                    </div>
+                </div>
+
+                <div class="stats-card analytics-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Avg. CTR</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-1">24.3%</p>
+                        </div>
+                        <div class="p-3 bg-purple-100 rounded-lg">
+                            <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-sm text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        <span>3.2% improvement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+{% endblock main %}
+
+{% block extrajs %}
+<script>
+    // Copy link functionality
+    document.querySelectorAll('.fa-copy').forEach(button => {
+        button.addEventListener('click', function () {
+            const shortUrl = 'shortify.link/shop2023';
+            navigator.clipboard.writeText(shortUrl).then(() => {
+                // Visual feedback
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i>';
+                this.classList.remove('text-gray-400');
+                this.classList.add('text-green-500');
+
+                setTimeout(() => {
+                    this.innerHTML = originalHTML;
+                    this.classList.remove('text-green-500');
+                    this.classList.add('text-gray-400');
+                }, 2000);
+            });
+        });
+    });
+</script>
+{% endblock extrajs %}
