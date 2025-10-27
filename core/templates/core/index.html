@@ -1,378 +1,424 @@
 {% extends "root/base.html" %}
 
 {% block main %}
-    <!-- Hero Section -->
-    <div class="gradient-bg">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl animate-fade-in">
-                    Short Links, Big Results
-                </h1>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-blue-100 animate-fade-in">
-                    Transform long URLs into smart, trackable links that drive engagement and provide insights.
-                </p>
+<!-- Hero Section -->
+<div class="gradient-bg">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:py-20 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl animate-fade-in">
+                Short Links, Big Results
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-blue-100 animate-fade-in">
+                Transform long URLs into smart, trackable links that drive engagement and provide insights.
+            </p>
 
-                <!-- URL Shortener Form -->
-                <div class="mt-8 max-w-2xl mx-auto animate-slide-up">
-                    <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-                        <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
-                            <input type="url" placeholder="Paste your long URL here"
-                                class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                            <button
-                                class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
-                                <i class="fas fa-link mr-2"></i> Shorten URL
-                            </button>
+            <!-- URL Shortener Form -->
+            <div class="mt-8 max-w-2xl mx-auto animate-slide-up">
+                <form method="POST" class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+                    {% csrf_token %}
+                    <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+                        <input type="url" name="original_url" placeholder="Paste your long URL here"
+                            class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                            required>
+                        <button type="submit"
+                            class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center">
+                            <i class="fas fa-link mr-2"></i> Shorten URL
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Display the generated short URL -->
+                {% if short_url %}
+                <div
+                    class="mt-4 bg-green-50 border border-green-300 text-green-800 px-4 py-3 rounded-lg text-center flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
+                    <p class="font-medium">Your Short URL:</p>
+                    <a href="{{ short_url }}" class="underline text-primary-600 font-bold" target="_blank"
+                        id="shortUrl">{{ short_url }}</a>
+                    <button onclick="copyLink()"
+                        class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        Copy Link
+                    </button>
+                    <!-- Generate Another Button -->
+                    <a href="/"
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        Generate Another
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="mt-6 flex flex-wrap justify-center animate-fade-in">
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i> Privacy-Friendly
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-bolt"></i> Instant Results
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-ban"></i> No Spam
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-lock"></i> Secure Links
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Key Features Section -->
+<div class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Features</h2>
+            <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
+                Everything you need in a URL shortener
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+                Powerful features to create, manage, and track your shortened URLs.
+            </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div class="pt-6">
+                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
+                    <div class="-mt-6">
+                        <div
+                            class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
+                            <i class="fas fa-rocket text-white text-xl"></i>
                         </div>
+                        <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Shorten Links</h3>
+                        <p class="mt-3 text-base text-gray-500">
+                            Instantly create short, memorable URLs from long, complex web addresses.
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Trust Badges -->
-                <div class="mt-6 flex flex-wrap justify-center animate-fade-in">
-                    <div class="trust-badge">
-                        <i class="fas fa-shield-alt"></i> Privacy-Friendly
+            <div class="pt-6">
+                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
+                    <div class="-mt-6">
+                        <div
+                            class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
+                            <i class="fas fa-chart-bar text-white text-xl"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Analytics</h3>
+                        <p class="mt-3 text-base text-gray-500">
+                            Track clicks, geographic location, referral sources, and device types.
+                        </p>
                     </div>
-                    <div class="trust-badge">
-                        <i class="fas fa-bolt"></i> Instant Results
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
+                    <div class="-mt-6">
+                        <div
+                            class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
+                            <i class="fas fa-tag text-white text-xl"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Branded URLs</h3>
+                        <p class="mt-3 text-base text-gray-500">
+                            Customize short URLs with your brand name for increased recognition.
+                        </p>
                     </div>
-                    <div class="trust-badge">
-                        <i class="fas fa-ban"></i> No Spam
-                    </div>
-                    <div class="trust-badge">
-                        <i class="fas fa-lock"></i> Secure Links
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
+                    <div class="-mt-6">
+                        <div
+                            class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Expiration & Security</h3>
+                        <p class="mt-3 text-base text-gray-500">
+                            Set expiration dates and password protection for your links.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Key Features Section -->
-    <div class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Features</h2>
+<!-- How It Works Section -->
+<div class="py-16 bg-primary-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">How It Works</h2>
+            <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
+                Shorten URLs in 3 Simple Steps
+            </p>
+        </div>
+
+        <div class="mt-12 max-w-3xl mx-auto">
+            <div class="space-y-10">
+                <div class="flex items-start">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-900">Paste Your Long URL</h3>
+                        <p class="mt-2 text-gray-600">Copy and paste any long URL into our shortening tool. Our
+                            system will instantly process it.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-900">Customize & Shorten</h3>
+                        <p class="mt-2 text-gray-600">Optionally add a custom alias, set expiration, or add password
+                            protection. Then click "Shorten".</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-dark-900">Share & Track</h3>
+                        <p class="mt-2 text-gray-600">Share your shortened link anywhere and track performance with
+                            our detailed analytics dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analytics Preview Section -->
+<div class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
+            <div>
+                <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Analytics</h2>
                 <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
-                    Everything you need in a URL shortener
+                    Powerful Insights at Your Fingertips
                 </p>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
-                    Powerful features to create, manage, and track your shortened URLs.
+                <p class="mt-4 text-lg text-gray-500">
+                    Understand your audience with detailed analytics. Track clicks, geographic data, referral
+                    sources, and device types to optimize your campaigns.
                 </p>
-            </div>
-
-            <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                <div class="pt-6">
-                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
-                        <div class="-mt-6">
-                            <div
-                                class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
-                                <i class="fas fa-rocket text-white text-xl"></i>
-                            </div>
-                            <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Shorten Links</h3>
-                            <p class="mt-3 text-base text-gray-500">
-                                Instantly create short, memorable URLs from long, complex web addresses.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6">
-                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
-                        <div class="-mt-6">
-                            <div
-                                class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
-                                <i class="fas fa-chart-bar text-white text-xl"></i>
-                            </div>
-                            <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Analytics</h3>
-                            <p class="mt-3 text-base text-gray-500">
-                                Track clicks, geographic location, referral sources, and device types.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6">
-                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
-                        <div class="-mt-6">
-                            <div
-                                class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
-                                <i class="fas fa-tag text-white text-xl"></i>
-                            </div>
-                            <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Branded URLs</h3>
-                            <p class="mt-3 text-base text-gray-500">
-                                Customize short URLs with your brand name for increased recognition.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6">
-                    <div class="flow-root bg-gray-50 rounded-lg px-6 pb-8 h-full text-center">
-                        <div class="-mt-6">
-                            <div
-                                class="inline-flex items-center justify-center p-3 bg-primary-500 rounded-md shadow-lg feature-icon mx-auto">
-                                <i class="fas fa-shield-alt text-white text-xl"></i>
-                            </div>
-                            <h3 class="mt-5 text-lg font-medium text-dark-900 tracking-tight">Expiration & Security</h3>
-                            <p class="mt-3 text-base text-gray-500">
-                                Set expiration dates and password protection for your links.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- How It Works Section -->
-    <div class="py-16 bg-primary-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">How It Works</h2>
-                <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
-                    Shorten URLs in 3 Simple Steps
-                </p>
-            </div>
-
-            <div class="mt-12 max-w-3xl mx-auto">
-                <div class="space-y-10">
-                    <div class="flex items-start">
-                        <div class="step-number">1</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-dark-900">Paste Your Long URL</h3>
-                            <p class="mt-2 text-gray-600">Copy and paste any long URL into our shortening tool. Our
-                                system will instantly process it.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start">
-                        <div class="step-number">2</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-dark-900">Customize & Shorten</h3>
-                            <p class="mt-2 text-gray-600">Optionally add a custom alias, set expiration, or add password
-                                protection. Then click "Shorten".</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start">
-                        <div class="step-number">3</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-dark-900">Share & Track</h3>
-                            <p class="mt-2 text-gray-600">Share your shortened link anywhere and track performance with
-                                our detailed analytics dashboard.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Analytics Preview Section -->
-    <div class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
-                <div>
-                    <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Analytics</h2>
-                    <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
-                        Powerful Insights at Your Fingertips
-                    </p>
-                    <p class="mt-4 text-lg text-gray-500">
-                        Understand your audience with detailed analytics. Track clicks, geographic data, referral
-                        sources, and device types to optimize your campaigns.
-                    </p>
-                    <ul class="mt-6 space-y-4">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
-                            <span class="text-gray-700">Real-time click tracking</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
-                            <span class="text-gray-700">Geographic location data</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
-                            <span class="text-gray-700">Device and browser information</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
-                            <span class="text-gray-700">Referral source tracking</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="mt-10 lg:mt-0">
-                    <div class="bg-gray-800 rounded-xl p-6 text-white card-shadow">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-bold">Link Performance</h3>
-                            <span class="text-sm bg-primary-500 px-2 py-1 rounded">Last 7 days</span>
-                        </div>
-
-                        <!-- Sample chart bars -->
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span>Monday</span>
-                                    <span>142 clicks</span>
-                                </div>
-                                <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary-500 rounded-full" style="width: 70%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span>Tuesday</span>
-                                    <span>198 clicks</span>
-                                </div>
-                                <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary-500 rounded-full" style="width: 90%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span>Wednesday</span>
-                                    <span>165 clicks</span>
-                                </div>
-                                <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary-500 rounded-full" style="width: 80%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-sm mb-1">
-                                    <span>Thursday</span>
-                                    <span>210 clicks</span>
-                                </div>
-                                <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary-500 rounded-full" style="width: 95%"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 grid grid-cols-2 gap-4 text-center">
-                            <div class="bg-gray-700 p-4 rounded-lg">
-                                <div class="text-2xl font-bold">2,458</div>
-                                <div class="text-sm text-gray-300">Total Clicks</div>
-                            </div>
-                            <div class="bg-gray-700 p-4 rounded-lg">
-                                <div class="text-2xl font-bold">68%</div>
-                                <div class="text-sm text-gray-300">Mobile Users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Use Cases Section -->
-    <div class="py-16 bg-primary-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Use Cases</h2>
-                <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
-                    Perfect for Everyone
-                </p>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
-                    Whether you're a marketer, developer, or content creator, Shortify has you covered.
-                </p>
-            </div>
-
-            <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
-                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-briefcase text-primary-500 text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-900 mb-3">Business Marketers</h3>
-                    <p class="text-gray-600">Track campaign performance, create branded links, and understand your
-                        audience with detailed analytics.</p>
-                </div>
-
-                <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
-                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-code text-primary-500 text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-900 mb-3">Developers & Product Teams</h3>
-                    <p class="text-gray-600">Integrate with our API, create custom solutions, and track user flows with
-                        shortened URLs.</p>
-                </div>
-
-                <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
-                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-users text-primary-500 text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark-900 mb-3">Influencers & Social Users</h3>
-                    <p class="text-gray-600">Create clean links for social media, track engagement, and understand what
-                        content resonates.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pricing Teaser Section -->
-    <div class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Pricing</h2>
-                <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
-                    Start for Free, Upgrade as You Grow
-                </p>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
-                    Our free plan includes all the essential features. Upgrade for advanced analytics and customization.
-                </p>
-            </div>
-
-            <div
-                class="mt-12 max-w-lg mx-auto bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white text-center card-shadow">
-                <h3 class="text-2xl font-bold">Free Forever Plan</h3>
-                <p class="mt-4 text-primary-100">Perfect for individuals and small projects</p>
-                <div class="mt-6">
-                    <span class="text-4xl font-bold">$0</span>
-                    <span class="text-primary-200">/month</span>
-                </div>
-                <ul class="mt-8 space-y-4 text-left">
+                <ul class="mt-6 space-y-4">
                     <li class="flex items-start">
-                        <i class="fas fa-check mt-1 mr-3"></i>
-                        <span>Up to 100 links per month</span>
+                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
+                        <span class="text-gray-700">Real-time click tracking</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check mt-1 mr-3"></i>
-                        <span>Basic analytics</span>
+                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
+                        <span class="text-gray-700">Geographic location data</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check mt-1 mr-3"></i>
-                        <span>Standard link expiration</span>
+                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
+                        <span class="text-gray-700">Device and browser information</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check mt-1 mr-3"></i>
-                        <span>QR code generation</span>
+                        <i class="fas fa-check-circle text-primary-500 mt-1 mr-3"></i>
+                        <span class="text-gray-700">Referral source tracking</span>
                     </li>
                 </ul>
-                <div class="mt-8">
-                    <a href="#"
-                        class="inline-block bg-white text-primary-600 font-medium py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
-                        Get Started Free
-                    </a>
-                    <a href="#" class="block mt-4 text-white hover:text-primary-100 font-medium">
-                        View full pricing details →
-                    </a>
-                </div>
             </div>
-        </div>
-    </div>
+            <div class="mt-10 lg:mt-0">
+                <div class="bg-gray-800 rounded-xl p-6 text-white card-shadow">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold">Link Performance</h3>
+                        <span class="text-sm bg-primary-500 px-2 py-1 rounded">Last 7 days</span>
+                    </div>
 
-    <!-- Final CTA Section -->
-    <div class="py-16 bg-gradient-to-r from-primary-600 to-primary-700">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 text-center">
-            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span class="block">Ready to shorten your URLs?</span>
-            </h2>
-            <p class="mt-4 max-w-2xl mx-auto text-xl text-primary-100">
-                Join thousands of users who trust Shortify for their link management needs.
-            </p>
-            <div class="mt-8 flex justify-center">
-                <div class="inline-flex rounded-md shadow">
-                    <a href="#"
-                        class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50">
-                        Get Started Free
-                    </a>
+                    <!-- Sample chart bars -->
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Monday</span>
+                                <span>142 clicks</span>
+                            </div>
+                            <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary-500 rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Tuesday</span>
+                                <span>198 clicks</span>
+                            </div>
+                            <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary-500 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Wednesday</span>
+                                <span>165 clicks</span>
+                            </div>
+                            <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary-500 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Thursday</span>
+                                <span>210 clicks</span>
+                            </div>
+                            <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary-500 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <div class="text-2xl font-bold">2,458</div>
+                            <div class="text-sm text-gray-300">Total Clicks</div>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <div class="text-2xl font-bold">68%</div>
+                            <div class="text-sm text-gray-300">Mobile Users</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Use Cases Section -->
+<div class="py-16 bg-primary-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Use Cases</h2>
+            <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
+                Perfect for Everyone
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+                Whether you're a marketer, developer, or content creator, Shortify has you covered.
+            </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-briefcase text-primary-500 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-dark-900 mb-3">Business Marketers</h3>
+                <p class="text-gray-600">Track campaign performance, create branded links, and understand your
+                    audience with detailed analytics.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-code text-primary-500 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-dark-900 mb-3">Developers & Product Teams</h3>
+                <p class="text-gray-600">Integrate with our API, create custom solutions, and track user flows with
+                    shortened URLs.</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 card-shadow use-case-card">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-primary-500 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-dark-900 mb-3">Influencers & Social Users</h3>
+                <p class="text-gray-600">Create clean links for social media, track engagement, and understand what
+                    content resonates.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pricing Teaser Section -->
+<div class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-base font-semibold text-primary-500 tracking-wide uppercase">Pricing</h2>
+            <p class="mt-2 text-3xl font-extrabold text-dark-900 sm:text-4xl">
+                Start for Free, Upgrade as You Grow
+            </p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-500">
+                Our free plan includes all the essential features. Upgrade for advanced analytics and customization.
+            </p>
+        </div>
+
+        <div
+            class="mt-12 max-w-lg mx-auto bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-8 text-white text-center card-shadow">
+            <h3 class="text-2xl font-bold">Free Forever Plan</h3>
+            <p class="mt-4 text-primary-100">Perfect for individuals and small projects.Pricing Plans are Free for now , its in test version!</p>
+            <div class="mt-6">
+                <span class="text-4xl font-bold">$0</span>
+                <span class="text-primary-200">/month</span>
+            </div>
+            <ul class="mt-8 space-y-4 text-left">
+                <li class="flex items-start">
+                    <i class="fas fa-check mt-1 mr-3"></i>
+                    <span>Up to 100 links per month</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check mt-1 mr-3"></i>
+                    <span>Basic analytics</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check mt-1 mr-3"></i>
+                    <span>Standard link expiration</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check mt-1 mr-3"></i>
+                    <span>QR code generation</span>
+                </li>
+            </ul>
+            <div class="mt-8">
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}"
+                    class="inline-block bg-white text-primary-600 font-medium py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+                    Get Started Free
+                </a>
+                {% else %}
+                <a href="{% url 'register' %}"
+                    class="inline-block bg-white text-primary-600 font-medium py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+                    Get Started Free
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Final CTA Section -->
+<div class="py-16 bg-gradient-to-r from-primary-600 to-primary-700">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 text-center">
+        <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            <span class="block">Ready to shorten your URLs?</span>
+        </h2>
+        <p class="mt-4 max-w-2xl mx-auto text-xl text-primary-100">
+            Join thousands of users who trust Shortify for their link management needs.
+        </p>
+        <div class="mt-8 flex justify-center">
+            <div class="inline-flex rounded-md shadow">
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}"
+                    class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50">
+                    Get Started Free
+                </a>
+                {% else %}
+                <a href="{% url 'register' %}"
+                    class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50">
+                    Get Started Free
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock main %}
+
+{% block extrajs %}
+<script>
+    function copyLink() {
+        const url = document.getElementById('shortUrl').textContent;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Short URL copied to clipboard!');
+        }).catch(err => {
+            alert('Failed to copy URL: ', err);
+        });
+    }
+</script>
+{% endblock extrajs %}
