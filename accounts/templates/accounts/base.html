@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock title %} - Shortify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: "#f0f9ff",
+                            100: "#e0f2fe",
+                            500: "#0ea5e9",
+                            600: "#0284c7",
+                            700: "#0369a1",
+                        },
+                        dark: {
+                            800: "#1e293b",
+                            900: "#0f172a",
+                        },
+                    },
+                    fontFamily: {
+                        inter: ["Inter", "sans-serif"],
+                    },
+                    animation: {
+                        "fade-in": "fadeIn 0.5s ease-in-out",
+                        "slide-up": "slideUp 0.5s ease-out",
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            "0%": { opacity: "0" },
+                            "100%": { opacity: "1" },
+                        },
+                        slideUp: {
+                            "0%": { transform: "translateY(10px)", opacity: "0" },
+                            "100%": { transform: "translateY(0)", opacity: "1" },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-primary {
+            background-color: #0ea5e9;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0284c7;
+        }
+
+        .auth-container {
+            min-height: 100vh;
+        }
+
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: #0ea5e9;
+        }
+
+        .password-strength-weak {
+            background-color: #ef4444;
+            width: 25%;
+        }
+
+        .password-strength-fair {
+            background-color: #f59e0b;
+            width: 50%;
+        }
+
+        .password-strength-good {
+            background-color: #3b82f6;
+            width: 75%;
+        }
+
+        .password-strength-strong {
+            background-color: #10b981;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-inter">
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div
+            class="flex items-center gap-2 rounded-lg px-4 py-3 border {% if message.tags == 'success' %} bg-green-50 border-green-300 text-green-700 {% elif message.tags == 'error' %} bg-red-50 border-red-300 text-red-700 {% endif %}">
+            <p class="text-sm font-medium">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block main %}{% endblock main %}
+
+    <script>
+        // Toggle password visibility
+        document.querySelectorAll(".toggle-password").forEach((button) => {
+            button.addEventListener("click", function () {
+                const input = this.parentElement.querySelector("input");
+                const icon = this.querySelector("i");
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash");
+                } else {
+                    input.type = "password";
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

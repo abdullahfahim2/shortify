@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock title %} - Shortify</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .mobile-sidebar {
+            transform: translateX(-100%);
+        }
+        .mobile-sidebar.open {
+            transform: translateX(0);
+        }
+        .overlay {
+            display: none;
+        }
+        .overlay.open {
+            display: block;
+        }
+        .stats-card {
+            transition: transform 0.2s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+        .table-row:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+    {% block extracss %}{% endblock extracss %}
+
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Mobile Sidebar Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar mobile-sidebar md:translate-x-0 fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg flex flex-col">
+        <!-- Logo -->
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <div class="bg-primary-500 p-2 rounded-lg">
+                    <i class="fas fa-link text-white text-lg"></i>
+                </div>
+                <span class="ml-2 text-xl font-bold text-dark-900">Shortify</span>
+            </div>
+            <button id="close-sidebar" class="md:hidden text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 py-6 space-y-2">
+            <a href="#" class="flex items-center px-4 py-3 text-primary-500 bg-primary-50 rounded-lg font-medium">
+                <i class="fas fa-chart-pie mr-3"></i>
+                Dashboard
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+                <i class="fas fa-plus-circle mr-3"></i>
+                Create Short Link
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+                <i class="fas fa-list mr-3"></i>
+                Manage Links
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:text-primary-500 hover:bg-primary-50 rounded-lg font-medium">
+                <i class="fas fa-chart-bar mr-3"></i>
+                Analytics
+            </a>
+        </nav>
+
+        <!-- User Section -->
+        <div class="p-4 border-t">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">
+                    JS
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">John Smith</p>
+                    <p class="text-xs text-gray-500">Free Plan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div
+            class="flex items-center gap-2 rounded-lg px-4 py-3 border {% if message.tags == 'success' %} bg-green-50 border-green-300 text-green-700 {% elif message.tags == 'error' %} bg-red-50 border-red-300 text-red-700 {% endif %}">
+            <p class="text-sm font-medium">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block main %}{% endblock main %}
+
+    <script>
+        // Mobile sidebar functionality
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const openSidebarButton = document.getElementById('open-sidebar');
+        const closeSidebarButton = document.getElementById('close-sidebar');
+
+        openSidebarButton.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+        });
+
+        closeSidebarButton.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        // User dropdown functionality
+        const userMenuButton = document.getElementById('user-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        userMenuButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+
+        // Copy link functionality
+        document.querySelectorAll('.fa-copy').forEach(button => {
+            button.addEventListener('click', function() {
+                const shortUrl = this.closest('tr').querySelector('.text-primary-500').textContent;
+                navigator.clipboard.writeText(shortUrl).then(() => {
+                    // Visual feedback
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    this.classList.remove('text-gray-400');
+                    this.classList.add('text-green-500');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.classList.remove('text-green-500');
+                        this.classList.add('text-gray-400');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+    {% block extrajs %}{% endblock extrajs %}
+</body>
+</html>
