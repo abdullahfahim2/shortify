@@ -1,0 +1,12 @@
+Full File structure->
+
+accounts app-
+    - user register, login,logout
+    - dashboard views,managelinks view,analytics view
+
+core app -
+    - landing page for unauthenticated user ( link tracing will not store)
+    - main shortlink generation logics
+
+shortener app - for api
+    - api logics
