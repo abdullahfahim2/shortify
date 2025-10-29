@@ -111,10 +111,10 @@
 
 <body class="bg-gray-50 font-inter">
     {% if messages %}
-    <div class="space-y-2">
+    <div class="space-y-2" id="messages-container">
         {% for message in messages %}
         <div
-            class="flex items-center gap-2 rounded-lg px-4 py-3 border {% if message.tags == 'success' %} bg-green-50 border-green-300 text-green-700 {% elif message.tags == 'error' %} bg-red-50 border-red-300 text-red-700 {% endif %}">
+            class="flex items-center gap-2 rounded-lg px-4 py-3 border {% if message.tags == 'success' %} bg-green-50 border-green-300 text-green-700 {% elif message.tags == 'error' %} bg-red-50 border-red-300 text-red-700 {% endif %} message-item">
             <p class="text-sm font-medium">{{ message }}</p>
         </div>
         {% endfor %}
@@ -139,6 +139,23 @@
                     icon.classList.add("fa-eye");
                 }
             });
+        });
+
+        // Select all messages
+        const messages = document.querySelectorAll('.message-item');
+
+        messages.forEach((msg) => {
+            // Set timeout to hide the message after 3 seconds (3000ms)
+            setTimeout(() => {
+                // Smooth fade out effect
+                msg.style.transition = "opacity 0.5s ease-out";
+                msg.style.opacity = 0;
+
+                // Remove from DOM after fade
+                setTimeout(() => {
+                    msg.remove();
+                }, 500);
+            }, 1000); // 3 seconds
         });
     </script>
 </body>

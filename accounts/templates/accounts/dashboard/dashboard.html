@@ -2,47 +2,28 @@
 
 {% block title %}Dashboard{% endblock title %}
 
-
 {% block main %}
-<!-- Main Content -->
-<div class="md:ml-64">
-    <!-- Header -->
+<div class="md:ml-64 p-6">
     <header class="bg-white shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
             <div class="flex items-center">
-                <button id="open-sidebar" class="md:hidden text-gray-500 hover:text-gray-700 mr-4">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
                 <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
             </div>
 
             <div class="flex items-center space-x-4">
-                <!-- Notifications -->
-                <button class="relative p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100">
-                    <i class="fas fa-bell text-xl"></i>
-                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
-                </button>
-
-                <!-- User Menu -->
                 <div class="relative" id="user-menu">
                     <button class="flex items-center space-x-2 text-gray-700 hover:text-gray-900">
                         <div
                             class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                            JS
+                            {{ user.first_name|default:user.email|slice:":2"|upper }}
                         </div>
-                        <span class="hidden md:block font-medium">John Smith</span>
+                        <span class="hidden md:block font-medium">{{ user.first_name|default:user.email }}</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden z-50"
                         id="dropdown-menu">
-                        <a href="{% url 'userprofile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                            <i class="fas fa-user mr-2"></i>Profile
-                        </a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                            <i class="fas fa-cog mr-2"></i>Settings
-                        </a>
                         <div class="border-t my-1"></div>
                         <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -53,354 +34,115 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
     <main class="p-6">
-        <!-- Quick Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Total Links</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-1">142</p>
-                    </div>
-                    <div class="p-3 bg-blue-100 rounded-lg">
-                        <i class="fas fa-link text-blue-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center text-sm text-green-500">
-                    <i class="fas fa-arrow-up mr-1"></i>
-                    <span>12% from last month</span>
-                </div>
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <p class="text-sm font-medium text-gray-500">Total Links</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ total_links }}</p>
             </div>
 
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Clicks Today</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-1">2,458</p>
-                    </div>
-                    <div class="p-3 bg-green-100 rounded-lg">
-                        <i class="fas fa-mouse-pointer text-green-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center text-sm text-green-500">
-                    <i class="fas fa-arrow-up mr-1"></i>
-                    <span>8% from yesterday</span>
-                </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <p class="text-sm font-medium text-gray-500">Total Clicks</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ total_clicks }}</p>
             </div>
 
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Active Links</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-1">87</p>
-                    </div>
-                    <div class="p-3 bg-purple-100 rounded-lg">
-                        <i class="fas fa-check-circle text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center text-sm text-gray-500">
-                    <span>5 links expiring soon</span>
-                </div>
-            </div>
-
-            <div class="stats-card bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Avg. CTR</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-1">24.3%</p>
-                    </div>
-                    <div class="p-3 bg-orange-100 rounded-lg">
-                        <i class="fas fa-chart-line text-orange-500 text-xl"></i>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center text-sm text-green-500">
-                    <i class="fas fa-arrow-up mr-1"></i>
-                    <span>3.2% improvement</span>
-                </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <p class="text-sm font-medium text-gray-500">Active Links</p>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ active_links }}</p>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="mb-8">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <h2 class="text-xl font-bold text-gray-900 mb-4 sm:mb-0">Your Links</h2>
-                <div class="flex space-x-3">
-                    <button
-                        class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium flex items-center">
-                        <i class="fas fa-plus mr-2"></i> Create New
-                    </button>
-                    <button
-                        class="bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg font-medium border border-gray-300 flex items-center">
-                        <i class="fas fa-filter mr-2"></i> Filter
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Links Table -->
+        <!-- Your Links -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <!-- Table Header -->
-            <div
-                class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div class="mb-4 sm:mb-0">
-                    <h3 class="text-lg font-medium text-gray-900">Recent Links</h3>
-                    <p class="text-sm text-gray-500 mt-1">Manage and track your shortened URLs</p>
-                </div>
-                <div class="flex items-center">
-                    <div class="relative">
-                        <input type="text" placeholder="Search links..."
-                            class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full sm:w-64">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                    </div>
-                </div>
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between">
+                <h3 class="text-lg font-medium text-gray-900">Recent Links</h3>
+                <a href="{% url 'managelinks' %}" class="text-primary-600 hover:underline">Manage All</a>
             </div>
 
-            <!-- Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Short URL</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Destination</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Clicks</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Created</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Short URL</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Destination</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Clicks</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Row 1 -->
-                        <tr class="table-row">
+                        {% for link in recent_links %}
+                        <tr>
+                            <!-- Short URL -->
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="text-sm font-medium text-primary-500">shortify.link/shop2023</div>
-                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
+                                    <a href="{{ link.short_url }}" target="_blank"
+                                        class="text-primary-500 hover:underline">
+                                        {{ request.get_host }}{{ link.short_url }}
+                                    </a>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 truncate max-w-xs">
-                                    https://example-store.com/black-friday-sale-2023-deals-discounts</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">2,458</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nov 15, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
 
-                        <!-- Row 2 -->
-                        <tr class="table-row">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-medium text-primary-500">shortify.link/blog-post</div>
-                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
+                            <!-- Destination -->
+                            <td class="px-6 py-4 text-gray-900 truncate max-w-xs">
+                                <a href="{{ link.original_url }}" class="hover:underline text-blue-600" target="_blank">
+                                    {{ link.original_url }}
+                                </a>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 truncate max-w-xs">
-                                    https://myblog.com/posts/how-to-improve-website-seo-ranking-google-2023</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">1,203</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Oct 28, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
 
-                        <!-- Row 3 -->
-                        <tr class="table-row">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-medium text-primary-500">shortify.link/product-launch</div>
-                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 truncate max-w-xs">
-                                    https://company.com/new-product-release-announcement-features</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">845</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nov 5, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                            <!-- Click Count -->
+                            <td class="px-6 py-4 text-gray-900 font-semibold">{{ link.click_count }}</td>
 
-                        <!-- Row 4 -->
-                        <tr class="table-row">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-medium text-primary-500">shortify.link/event-reg</div>
-                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 truncate max-w-xs">
-                                    https://events.example.com/conference/registration-form-2023</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">312</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sep 18, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Expiring</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                            <!-- Created Date -->
+                            <td class="px-6 py-4 text-gray-500 text-sm">{{ link.created_at|date:"M d, Y" }}</td>
 
-                        <!-- Row 5 -->
-                        <tr class="table-row">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-medium text-primary-500">shortify.link/support-docs</div>
-                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 truncate max-w-xs">
-                                    https://help.example.com/documentation/user-guide-troubleshooting</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">156</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nov 10, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <!-- Status -->
+                            <td class="px-6 py-4">
+                                {% if link.is_active %}
                                 <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div class="flex justify-end space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                                    class="px-2 inline-flex text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                {% else %}
+                                <span
+                                    class="px-2 inline-flex text-xs font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
+                                {% endif %}
                             </td>
                         </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-6 text-gray-500">
+                                You haven’t created any links yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
 
-            <!-- Pagination -->
-            <div
-                class="px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div class="text-sm text-gray-700 mb-4 sm:mb-0">
-                    Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span
-                        class="font-medium">142</span> results
-                </div>
-                <div class="flex space-x-2">
-                    <button
-                        class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-500 bg-white hover:bg-gray-50">
-                        Previous
-                    </button>
-                    <button
-                        class="px-3 py-1 border border-primary-500 bg-primary-50 text-primary-600 rounded-md text-sm font-medium">
-                        1
-                    </button>
-                    <button
-                        class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-500 bg-white hover:bg-gray-50">
-                        2
-                    </button>
-                    <button
-                        class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-500 bg-white hover:bg-gray-50">
-                        3
-                    </button>
-                    <button
-                        class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-500 bg-white hover:bg-gray-50">
-                        Next
-                    </button>
-                </div>
-            </div>
         </div>
     </main>
 </div>
 {% endblock main %}
+
+
+{% block extrajs %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userMenuButton = document.querySelector('#user-menu > button');
+        const dropdownMenu = document.querySelector('#dropdown-menu');
+    
+        // Toggle dropdown on click
+        userMenuButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            dropdownMenu.classList.toggle('hidden');
+        });
+    
+        // Close dropdown if clicked outside
+        document.addEventListener('click', function(e) {
+            if (!userMenuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    });
+</script>
+{% endblock extrajs %}
