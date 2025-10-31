@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('core.urls')),
     path('accounts/',include('accounts.urls')),
-    path('api/',include('shortener.api.urls')),
+    path('shortener/api/',include('shortener.api.urls')),
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

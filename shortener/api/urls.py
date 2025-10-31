@@ -3,6 +3,6 @@ from .views import *
 
 
 urlpatterns = [
-    path('apis/',Shorturlcreate.as_view()),
+    path('',Shorturlcreate.as_view()),
     path('<pk>/',ShortUrlDetail.as_view()),
 ]
